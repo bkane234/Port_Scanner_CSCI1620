@@ -44,7 +44,7 @@ class Logic(QMainWindow, Ui_MainWindow) :
         """
         try:
             target_ip: str = self.IP_Entry.text().strip('.') # The strip statements help the program to validate data since an Input mask is used.
-            ip_regex: str = r'(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}' # Regex for checking IPv4
+            ip_regex: str = r'(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}' # Regex for checking IPv4, from ihateregex.com
             port1: int = self.port1.text().strip()
             port2: int = self.port2.text().strip()
 
@@ -83,11 +83,11 @@ class Logic(QMainWindow, Ui_MainWindow) :
             self.load.show() # This method starts the loading screen window, as well as the animation
             self.load.gif.start()
             with open('outcome.txt', 'a', newline='') as file: # outcome.txt holds the scan results which can be viewed in the file itself
-                now = datetime.datetime.now() #Gets the date and time to help differentiate between scans.
+                now = datetime.datetime.now() #Gets the date and time to help differentiate between scans. From Python Documentation
                 counter: int = 0 # keeps track of the open ports
                 file.write(f"----------------New Scan @ {now}----------------\n") #Writes a separating header
                 for port in range(port1, port2 + 1): # for statement loops through the various ports until it is finished
-                    try:
+                    try: # Nmap result and scan_data from David Bombal
                         result = self.scanner.scan(target_ip, str(port), arguments=self.type)# This is where the magic happens.
                         #result stores the "scan" method from the Scanner object, and takes the IP, ports, and type of scan given from
                         #before.

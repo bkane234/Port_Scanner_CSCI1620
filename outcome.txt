@@ -1,0 +1,8 @@
+----------------New Scan @ 2024-12-13 18:45:19.043277----------------
+There are/is 0 open port(s).
+----------------New Scan @ 2024-12-13 18:45:37.408193----------------
+Port 80 (http): open (Reason: syn-ack) OS info: unknown
+There are/is 1 open port(s).
+----------------New Scan @ 2024-12-13 18:46:34.737358----------------
+Port 80 (http): open (Reason: syn-ack) OS info: unknown
+There are/is 1 open port(s).

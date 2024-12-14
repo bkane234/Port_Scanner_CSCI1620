@@ -104,13 +104,14 @@ class Logic(QMainWindow, Ui_MainWindow) :
                             port_status: str = f"Port {port} ({port_service}): {port_state} (Reason: {port_reason}) OS info: {os_info}\n" # this variable stores the output that will be
                             #printed into a txt file.
                             file.write(port_status) # Writes the variable to the file.
-                        file.write(f'There are/is {counter} open port(s).') #Shows the amount of ports open
+
 
 
                     except Exception as e: # this helps to handle any errors while scanning is being completed.
                         port_status = f"Error scanning port {port}: {e}"
                     QApplication.processEvents() # QApplication helps to keep both windows open while the data is being
                     #written to the file
+                file.write(f'There are/is {counter} open port(s).\n')  # Shows the amount of ports open
             self.load.close() #Closes the loading window
         except ValueError as ve: #Handles any kind of input errors.
             self.show_error(str(ve))

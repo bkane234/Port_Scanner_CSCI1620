@@ -84,6 +84,7 @@ class Logic(QMainWindow, Ui_MainWindow) :
             self.load.gif.start()
             with open('outcome.txt', 'a', newline='') as file: # outcome.txt holds the scan results which can be viewed in the file itself
                 now = datetime.datetime.now() #Gets the date and time to help differentiate between scans.
+                counter: int = 0 # keeps track of the open ports
                 file.write(f"----------------New Scan @ {now}----------------\n") #Writes a separating header
                 for port in range(port1, port2 + 1): # for statement loops through the various ports until it is finished
                     try:
@@ -94,15 +95,20 @@ class Logic(QMainWindow, Ui_MainWindow) :
                         #from the scan method and takes values from them to be displayed below.
                         port_info: dict = scan_data.get(self.prot, {}).get(port, {})
                         port_state: str = port_info.get('state', 'unknown')
-                        port_reason: str = port_info.get('reason', 'N/A')
-                        port_service: str= port_info.get('name', 'unknown')
-                        os_matches: list = scan_data.get('osmatch', [])
-                        os_info: list = os_matches[0]['name'] if os_matches else 'unknown' # os_matches uses lists instead of a dictionary
-                        port_status: str = f"Port {port} ({port_service}): {port_state} (Reason: {port_reason}) OS info: {os_info}\n" # this variable stores the output that will be
-                        #printed into a txt file.
+                        if port_state == "open":
+                            counter += 1
+                            port_reason: str = port_info.get('reason', 'N/A')
+                            port_service: str= port_info.get('name', 'unknown')
+                            os_matches: list = scan_data.get('osmatch', [])
+                            os_info: list = os_matches[0]['name'] if os_matches else 'unknown' # os_matches uses lists instead of a dictionary
+                            port_status: str = f"Port {port} ({port_service}): {port_state} (Reason: {port_reason}) OS info: {os_info}\n" # this variable stores the output that will be
+                            #printed into a txt file.
+                            file.write(port_status) # Writes the variable to the file.
+                        file.write(f'There are/is {counter} open port(s).') #Shows the amount of ports open
+
+
                     except Exception as e: # this helps to handle any errors while scanning is being completed.
                         port_status = f"Error scanning port {port}: {e}"
-                    file.write(port_status)# Writes the variable to the file.
                     QApplication.processEvents() # QApplication helps to keep both windows open while the data is being
                     #written to the file
             self.load.close() #Closes the loading window
